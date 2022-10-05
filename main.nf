@@ -5,7 +5,7 @@ process PeekEnvironment {
 
     """
     pwd
-    ls -lh
+    ls -lha
     df -h
     """
 }
