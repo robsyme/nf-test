@@ -2,6 +2,8 @@ nextflow.enable.dsl=2
 
 process MakeDirectory {
     publishDir "results", mode: 'copy'
+    container 'busybox'
+
     output:
     path("out")
 
@@ -15,6 +17,8 @@ process MakeDirectory {
 
 process DirectlyOutput {
     publishDir "results", mode: 'copy'
+    container 'busybox'
+
     output:
     path("out/one/two/direct.csv")
 
@@ -28,6 +32,8 @@ process DirectlyOutput {
 
 process WithGlob {
     publishDir "results", mode: 'copy'
+    container 'busybox'
+
     output:
     path("out/one/two/with_glob.csv")
 
