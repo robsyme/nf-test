@@ -1,10 +1,13 @@
-process TestEnv {
+process PeekEnvironment {
     debug true
-    container 'robsyme/nf-test:latest'
 
-    'echo $NF_TEST_VERSION'
+    """
+    pwd
+    ls -lh
+    df -h
+    """
 }
 
 workflow {
-    TestEnv()
+    PeekEnvironment()
 }
