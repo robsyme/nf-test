@@ -1,0 +1,7 @@
+reports:
+  fromdir.csv:
+    display: "Data about people and places"
+  with_glob.csv:
+    display: "Data about people and places"
+  direct.csv:
+    display: "Data about people and places"
