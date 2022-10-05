@@ -1,0 +1,3 @@
+FROM ubuntu
+
+ENV NF_TEST_VERSION="v1.0.0"

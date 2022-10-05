@@ -1,4 +1,10 @@
+process TestEnv {
+    debug true
+    container 'robsyme/nf-test:latest'
+
+    'echo $NF_TEST_VERSION'
+}
+
 workflow {
-    log.info "Just a test repository."
-    log.info "Nothing interesting here."
+    TestEnv()
 }
