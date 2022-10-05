@@ -1,3 +1,5 @@
+nextflow.enable.dsl=2
+
 process MakeDirectory {
     publishDir "results", mode: 'copy'
     output:
