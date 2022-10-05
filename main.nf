@@ -35,7 +35,7 @@ process WithGlob {
     container 'ubuntu'
 
     output:
-    path("out/one/two/with_glob.csv")
+    path("out/**/*.csv")
 
     """
     mkdir -p out/one/two
