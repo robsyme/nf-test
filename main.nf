@@ -8,7 +8,7 @@ process MakeTest {
     publishDir "results"
 
     output:
-    path("*.txt") into test_ch
+    path("*.txt")
 
     'echo "Test Email Attachment" >> test.txt '
 }
