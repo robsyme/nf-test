@@ -1,28 +1,68 @@
-#!/usr/bin/env nextflow
-nextflow.enable.dsl=2
-
-params.email = 'rob.syme@seqera.io'
-
-process MakeTest {
-    debug true
-    publishDir "results"
+process SayHi {
+    input:
+    val(name)
 
     output:
-    path("*.txt")
+    path("greeting.txt")
 
-    'echo "Test Email Attachment" >> test.txt '
+    "echo 'Hi there, $name' > greeting.txt"
+}
+
+process SayBye {
+    input:
+    val(name)
+
+    output:
+    path("farewell.txt")
+
+    "echo 'See you next time, $name' > farewell.txt"
+}
+
+process GestureTo {
+    input:
+    val(name)
+
+    output:
+    val(true)
+
+    'sleep $[ ( $RANDOM % 10 ) + 1 ]'
+}
+
+process MakeSummary {
+    input:
+    path('in.txt')
+
+    output:
+    path('out.txt')
+
+    '''
+    LINE_COUNT=$(awk 'END{print NR}' in.txt)
+    PEOPLE_COUNT=$(awk '{a[NF]="X"} END { print length(a) }' in.txt)
+    echo "Found $LINE_COUNT utterances to $PEOPLE_COUNT people" > out.txt
+    '''
 }
 
 workflow {
-    MakeTest()
-}
+    Channel.of('Rob', 'Daniel', 'Michael')
+    | ( SayHi & SayBye & GestureTo)
 
-workflow.onComplete {
-    sendMail {
-        to "${params.email}" 
-        from "${params.email}"
-        subject "My pipeline execution"
-        body "test 123"
-        attach "results/test.txt"
+    SayHi.out
+    | mix(SayBye.out)
+    | collectFile(name: 'utterances.txt')
+    | MakeSummary
+
+    SayBye.out
+    | count
+    | set { ch_farewell_count }
+
+    MakeSummary.out
+    | combine(GestureTo.out.last())
+    | map { summaryFile, flag ->
+        sendMail {
+            to 'rob.syme@gmail.com'
+            attach "${summaryFile}"
+            subject "TEST EMAIL"
+            "TEST CONTENT"
+        }
     }
 }
