@@ -1,6 +1,7 @@
 nextflow.enable.dsl=2
 
 process SayHi {
+    container 'ubuntu'
     input:
     val(name)
 
@@ -11,6 +12,7 @@ process SayHi {
 }
 
 process SayBye {
+    container 'ubuntu'
     input:
     val(name)
 
@@ -21,6 +23,7 @@ process SayBye {
 }
 
 process GestureTo {
+    container 'ubuntu'
     input:
     val(name)
 
@@ -31,6 +34,7 @@ process GestureTo {
 }
 
 process MakeSummary {
+    container 'ubuntu'
     input:
     path('in.txt')
 
