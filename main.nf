@@ -1,7 +1,6 @@
 nextflow.enable.dsl=2
 
 process SayHi {
-    container 'ubuntu'
     input:
     val(name)
 
@@ -12,7 +11,6 @@ process SayHi {
 }
 
 process SayBye {
-    container 'ubuntu'
     input:
     val(name)
 
@@ -23,7 +21,6 @@ process SayBye {
 }
 
 process GestureTo {
-    container 'ubuntu'
     input:
     val(name)
 
@@ -34,7 +31,6 @@ process GestureTo {
 }
 
 process MakeSummary {
-    container 'ubuntu'
     input:
     path('in.txt')
 
@@ -57,18 +53,19 @@ workflow {
     | collectFile(name: 'utterances.txt')
     | MakeSummary
 
-    SayBye.out
-    | count
-    | set { ch_farewell_count }
+    ch_num_goodbyes = SayBye.out.count()
 
     MakeSummary.out
-    | combine(GestureTo.out.last())
-    | map { summaryFile, flag ->
+    | combine( ch_num_goodbyes )
+    | combine( GestureTo.out.last() )
+    | map { summaryFile, num_goodbyes, flag ->
+        log.info "Sending email..."
         sendMail {
             to 'rob.syme@gmail.com'
             attach "${summaryFile}"
-            subject "TEST EMAIL"
+            subject "Found ${num_goodbyes} goodbyes"
             "TEST CONTENT"
         }
     }
 }
+
