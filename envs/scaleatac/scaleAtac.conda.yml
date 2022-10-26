@@ -1,0 +1,19 @@
+name: scaleAtacNf
+channels:
+  - conda-forge
+  - bioconda
+  - defaults
+dependencies:
+  - numpy
+  - pandas
+  - pybedtools
+  - samtools
+  - bedtools
+  - tabix
+  - bowtie2
+  - cutadapt
+  - fastqc
+  - multiqc
+  - pip
+  - pip:
+    - macs3

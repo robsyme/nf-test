@@ -60,7 +60,7 @@ workflow inputReads {
     fqSamples | view { "fqSamples: $it"}
 
 	// Process cell-barcodes and (optionally) split fastqs into samples based on tagmentation barcode
-	// barcodeDemux(samplesCsv, libJson.getParent(), libJson.getName(), fqSamples)
+	barcodeDemux(samplesCsv, libJson.getParent(), libJson.getName(), fqSamples)
 	// demuxFqs = barcodeDemux.out.fastq.flatMap({it[1]}).map { file ->
 	// 	def ns = file.getName().toString().tokenize('_')
 	// 	return tuple(ns.get(0), file)
