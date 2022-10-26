@@ -57,16 +57,18 @@ workflow inputReads {
 	}.groupTuple()
 	fqSamples = samples.map({it.fastqName}).unique().join(fqFiles)
 
+    fqSamples | view { "fqSamples: $it"}
+
 	// Process cell-barcodes and (optionally) split fastqs into samples based on tagmentation barcode
-	barcodeDemux(samplesCsv, libJson.getParent(), libJson.getName(), fqSamples)
-	demuxFqs = barcodeDemux.out.fastq.flatMap({it[1]}).map { file ->
-		def ns = file.getName().toString().tokenize('_')
-		return tuple(ns.get(0), file)
-	}.groupTuple(size:2)
+	// barcodeDemux(samplesCsv, libJson.getParent(), libJson.getName(), fqSamples)
+	// demuxFqs = barcodeDemux.out.fastq.flatMap({it[1]}).map { file ->
+	// 	def ns = file.getName().toString().tokenize('_')
+	// 	return tuple(ns.get(0), file)
+	// }.groupTuple(size:2)
     
-    emit:
-	fqs = demuxFqs
-	metrics = barcodeDemux.out.metrics
+    // emit:
+	// fqs = demuxFqs
+	// metrics = barcodeDemux.out.metrics
 }
 
 
@@ -79,7 +81,7 @@ workflow {
     fqDir | view { "fqDir: $it"}
     samples | view { "samples: $it" }
     
-    // inputReads(samples, samplesCsv, libJson, fqDir)
+    inputReads(samples, samplesCsv, libJson, fqDir)
     // foo = inputReads.out.fqs.map{it[0]}
     // sampleReport(foo, samplesCsv, libJson)
 }
