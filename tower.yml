@@ -1,0 +1,5 @@
+reports:
+    "*.report.html":
+        display: "Summary"
+    "fastq/multiqc_report.html":
+        display: "FASTQ MultiQC"
