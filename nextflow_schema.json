@@ -1,0 +1,82 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "$id": "https://raw.githubusercontent.com/ScaleBio/ScaleAtac/master/nextflow_schema.json",
+    "title": "ScaleBio Universal ATAC pipeline parameters",
+    "description": "",
+    "type": "object",
+    "definitions": {
+        "input_output_options": {
+            "title": "Input/output options",
+            "type": "object",
+            "fa_icon": "fas fa-terminal",
+            "description": "Define where the pipeline should find input data and save output data.",
+            "properties": {
+                "samples": {
+                    "type": "string",
+                    "format": "file-path",
+                    "mimetype": "text/csv",
+                    "pattern": "^\\S+\\.csv$",
+                    "description": "Csv file describing all samples in the analysis run (required!)",
+                    "fa_icon": "fas fa-file-csv"
+                },
+                "runFolder": {
+                    "type": "string",
+                    "description": "Top-level sequencer run directory (or null when using fastq input)",
+                    "format": "directory-path",
+                    "default": null
+                },
+                "fastqDir": {
+                    "type": "string",
+                    "description":"Directory containing pre-generated FASTQs files (or null when using runFolder input)",
+                    "format": "directory-path",
+                    "default": null
+                },
+                "libStructure": {
+                    "type": "string",
+                    "format": "file-path",
+                    "mimetype": "text/json",
+                    "pattern": "^\\S+\\.json$",
+                    "description": "Json file describing library structure and index/barcode sequences",
+                    "fa_icon": "fas fa-file-json",
+                    "default": "lib-atacUniversal-a.json"
+                },
+
+                "outDir": {
+                    "type": "string",
+                    "description": "Name of the output directory for workflow results",
+                    "format": "directory-path",
+                    "default": "out"
+                }
+            },
+            "required": [
+                "samples", "outDir"
+            ]
+        },
+        "reference_genome_options": {
+            "title": "Reference genome options",
+            "type": "object",
+            "fa_icon": "fas fa-dna",
+            "description": "Reference genome related files and options required for the workflow.",
+            "properties": {
+                "genome": {
+                    "type": "string",
+                    "description": "json file with paths and parameters for the reference genome (required!)",
+                    "format": "file-path",
+                    "mimetype": "text/json",
+                    "pattern": "^\\S+\\.json$"
+                }
+            },
+            "required": [
+                "genome"
+            ]
+        }
+    },
+    "allOf": [
+        {
+            "$ref": "#/definitions/input_output_options"
+        },
+        {
+            "$ref": "#/definitions/reference_genome_options"
+        }
+    ]
+}
