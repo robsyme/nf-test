@@ -51,32 +51,11 @@
             "required": [
                 "samples", "outDir"
             ]
-        },
-        "reference_genome_options": {
-            "title": "Reference genome options",
-            "type": "object",
-            "fa_icon": "fas fa-dna",
-            "description": "Reference genome related files and options required for the workflow.",
-            "properties": {
-                "genome": {
-                    "type": "string",
-                    "description": "json file with paths and parameters for the reference genome (required!)",
-                    "format": "file-path",
-                    "mimetype": "text/json",
-                    "pattern": "^\\S+\\.json$"
-                }
-            },
-            "required": [
-                "genome"
-            ]
         }
     },
     "allOf": [
         {
             "$ref": "#/definitions/input_output_options"
-        },
-        {
-            "$ref": "#/definitions/reference_genome_options"
         }
     ]
 }
