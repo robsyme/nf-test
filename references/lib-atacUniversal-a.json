@@ -1,0 +1,15 @@
+{
+    "barcodes" : [
+        {"read": "index1", "start": 0, "length": 8, "name": "index", "type": "library_index", "rev_comp": false}, 
+        {"read": "read2", "start": 0, "length": 8, "name": "tgmt", "sequences": "scaleTgmtUniversal24.txt", "alias":"Tagmentation", "level":1},
+        {"read": "index2", "start": 0, "length": 16, "name": "drop", "sequences": "atacBead-1.txt.gz", "rev_comp": true, "alias":"Droplet", "level":2}
+    ],
+    "sample_barcode": "tgmt",
+    "genomic_r1": {"start":0},
+    "genomic_r2": {"start":27},
+    "bcl_convert": {
+        "adapter": "CTGTCTCTTATACACATCT",
+        "OverrideCycles": ["Y", "I", "U", "Y"]
+    }
+}
+    
