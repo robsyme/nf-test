@@ -84,5 +84,5 @@ workflow {
     inputReads(samples, samplesCsv, libJson, fqDir)
     foo = inputReads.out.fqs.map{it[0]}
     foo | view { "Foo: $it" }
-    // sampleReport(foo, samplesCsv, libJson)
+    sampleReport(foo, samplesCsv, libJson)
 }
