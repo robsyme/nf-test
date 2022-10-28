@@ -1,4 +1,18 @@
+process MakeFile {
+    publishDir "${params.outdir}"
+
+    input:
+    tuple val(i), val(filesize)
+
+    output:
+    path("*.dat")
+
+    "truncate -s ${filesize.toMega()}M out.${i}.dat"
+}
+
 workflow {
-    log.info "Just a test repository."
-    log.info "Nothing interesting here."
+    def filesize = new MemoryUnit(params.filesize)
+    Channel.of(1..params.count) 
+    | combine([filesize])
+    | MakeFile
 }
