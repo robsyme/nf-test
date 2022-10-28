@@ -1,4 +1,15 @@
+process Test {
+    input:
+    path(infile)
+
+    output:
+    path("data.txt")
+
+    "du -sh $infile > data.txt"
+}
+
 workflow {
-    log.info "Just a test repository."
-    log.info "Nothing interesting here."
+    Channel.fromPath(params.reads)
+    | Test
+    | view { it.text.trim() }
 }
