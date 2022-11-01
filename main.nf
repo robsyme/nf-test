@@ -6,7 +6,6 @@ params.email = 'rob.syme@seqera.io'
 process MakeTest {
     debug true
     executor 'local'
-    publishDir "results"
 
     output:
     path("*.txt")
@@ -24,6 +23,5 @@ workflow.onComplete {
         from "${params.email}"
         subject "My pipeline execution"
         body "test 123"
-        attach "results/test.txt"
     }
 }
