@@ -5,6 +5,7 @@ params.email = 'rob.syme@seqera.io'
 
 process MakeTest {
     debug true
+    executor 'local'
     publishDir "results"
 
     output:
