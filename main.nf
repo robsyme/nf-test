@@ -5,7 +5,6 @@ params.email = 'rob.syme@seqera.io'
 
 process MakeTest {
     debug true
-    executor 'local'
 
     output:
     path("*.txt")
