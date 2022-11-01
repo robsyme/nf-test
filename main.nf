@@ -9,18 +9,15 @@ process MakeTest {
     output:
     path("*.txt")
 
-    'echo "Test Email Attachment" >> test.txt '
-}
-
-workflow {
-    MakeTest()
-}
-
-workflow.onComplete {
+    exec:
     sendMail {
         to "${params.email}" 
         from "${params.email}"
         subject "My pipeline execution"
         body "test 123"
     }
+}
+
+workflow {
+    MakeTest()
 }
