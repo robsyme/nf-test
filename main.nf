@@ -9,7 +9,7 @@ process MakeFile {
     output:
     path("*.dat")
 
-    "truncate -s ${filesize.toMega()}M out.${i}.dat"
+    "dd if=/dev/zero of=out.${i}.dat bs=${filesize.toMega()}M count=1"
 }
 
 workflow {
