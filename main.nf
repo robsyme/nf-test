@@ -2,6 +2,7 @@ nextflow.enable.dsl=2
 
 process MakeFile {
     publishDir "${params.outdir}"
+    memory '4G'
 
     input:
     tuple val(i), val(filesize)
@@ -9,7 +10,7 @@ process MakeFile {
     output:
     path("*.dat")
 
-    "dd if=/dev/zero of=out.${i}.dat bs=${filesize.toMega()}M count=1"
+    "dd if=/dev/zero bs=1M count=${filesize.toMega()} of=out.${i}.dat"
 }
 
 workflow {
