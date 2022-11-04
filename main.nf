@@ -1,3 +1,5 @@
+nextflow.enable.dsl=2
+
 params.outdir = 'results'
 
 process MakeTxt {
@@ -12,7 +14,7 @@ process MakeTxt {
 
 workflow {
     MakeTxt()
-    
+
     MakeTxt.out.run | view { runfile ->
         matcher = runfile.text =~ /(?ms)nxf_unstage.*?^}/
         matcher[0]
