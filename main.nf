@@ -1,21 +1,45 @@
 nextflow.enable.dsl=2
 
-process MakeFile {
+process MakeBigFile {
     publishDir "${params.outdir}"
     memory '4G'
 
     input:
-    tuple val(i), val(filesize)
+    val(i)
 
     output:
     path("*.dat")
 
-    "dd if=/dev/zero bs=1M count=${filesize.toMega()} of=out.${i}.dat"
+    script:
+    def filesize = new MemoryUnit(params.bigfilesize)
+    """
+    dd if=/dev/zero bs=1M count=0 seek=${filesize.toMega()} of=out.big.${i}.dat
+    """
+}
+
+process MakeSmallFiles {
+    publishDir "${params.outdir}"
+    memory '4G'
+
+    output:
+    path("*.dat")
+
+    when:
+    params.smallfilecount > 0
+
+    script:
+    def filesize = new MemoryUnit(params.smallfilesize)
+    """
+    dd if=/dev/zero bs=1M count=0 seek=${filesize.toMega()} of=out.small.template.dat
+    for j in {1..${params.smallfilecount}}; do cp out.small.template.dat "out.small.\${j}.dat"; done
+    rm -f out.small.template.dat
+    """
 }
 
 workflow {
-    def filesize = new MemoryUnit(params.filesize)
-    Channel.of(1..params.count) 
-    | combine([filesize])
-    | MakeFile
+    MakeSmallFiles()
+
+    Channel.of(0..params.bigfilecount)
+    | filter { it > 0 } 
+    | MakeBigFile
 }

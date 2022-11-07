@@ -21,14 +21,25 @@
                     "fa_icon": "fas fa-folder-open",
                     "default": "results"
                 },
-                "filesize": {
+                "bigfilesize": {
                     "type": "string",
                     "default": "1GB",
-                    "description": "Size of each output file (can use units such as MB, GB, etc)"
+                    "description": "Size of large file. Can use units such as MB, GB, etc."
                 },
-                "count": {
+                "bigfilecount": {
+                    "type": "integer",
+                    "default": 10,
+                    "description": "Number of large files to create"
+                },
+                "smallfilesize": {
                     "type": "string",
-                    "default": "10"
+                    "default": "1M",
+                    "description": "Size of small files. Can use units such as MB, GB, etc."
+                },
+                "smallfilecount": {
+                    "type": "integer",
+                    "default": 0,
+                    "description": "Number of small files to create"
                 }
             }
         }
