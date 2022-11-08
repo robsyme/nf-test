@@ -19,6 +19,9 @@ process MakeSmallFiles {
     publishDir "${params.outdir}"
     memory '4G'
 
+    input:
+    val(flag)
+
     output:
     path("*.dat")
 
@@ -35,9 +38,10 @@ process MakeSmallFiles {
 }
 
 workflow {
-    MakeSmallFiles()
-
     Channel.of(0..params.bigfilecount)
     | filter { it > 0 } 
     | MakeBigFile
+    | collect
+    | map { true }
+    | MakeSmallFiles
 }
