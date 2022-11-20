@@ -44,7 +44,7 @@ process Summarize {
     when:
     params.summarize
 
-    "ls -lh"
+    "echo done"
 }
 
 workflow {
@@ -56,6 +56,7 @@ workflow {
     | MakeSmallFiles
     
     MakeBigFile.out
+    | mix(MakeSmallFiles.out)
     | collect 
     | Summarize 
 }
