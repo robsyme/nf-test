@@ -40,6 +40,10 @@
                     "type": "integer",
                     "default": 0,
                     "description": "Number of small files to create"
+                },
+                "summarize": {
+                    "type": "boolean",
+                    "description": "Run final process after all others have finished"
                 }
             }
         }
