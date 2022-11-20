@@ -37,6 +37,16 @@ process MakeSmallFiles {
     """
 }
 
+process Summarize {
+    input:
+    path(files)
+
+    when:
+    params.summarize
+
+    "ls -lh"
+}
+
 workflow {
     Channel.of(0..params.bigfilecount)
     | filter { it > 0 } 
@@ -44,4 +54,8 @@ workflow {
     | collect
     | map { true }
     | MakeSmallFiles
+    
+    MakeBigFile.out
+    | collect 
+    | Summarize 
 }
