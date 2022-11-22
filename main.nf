@@ -8,6 +8,7 @@ process MakeDirectory {
 
     output:
     path("out/**")
+    path("out/**/*.csv")
 
     """
     mkdir -p out/one/two
