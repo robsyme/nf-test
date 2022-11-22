@@ -1,7 +1,9 @@
 nextflow.enable.dsl=2
 
+params.outdir = 'results'
+
 process MakeDirectory {
-    publishDir "results", mode: 'copy'
+    publishDir "${params.outdir}/mkdir", mode: 'copy'
     container 'ubuntu'
 
     output:
@@ -16,7 +18,7 @@ process MakeDirectory {
 }
 
 process DirectlyOutput {
-    publishDir "results", mode: 'copy'
+    publishDir "${params.outdir}/direct", mode: 'copy'
     container 'ubuntu'
 
     output:
