@@ -7,7 +7,7 @@ process MakeDirectory {
     container 'ubuntu'
 
     output:
-    path("out")
+    path("out/**")
 
     """
     mkdir -p out/one/two
