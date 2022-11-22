@@ -1,7 +1,7 @@
 reports:
-  fromdir.csv:
+  "**/fromdir.csv":
     display: "Data about people and places"
-  with_glob.csv:
+  "**/with_glob.csv":
     display: "Data about people and places"
-  direct.csv:
+  "**/direct.csv":
     display: "Data about people and places"
