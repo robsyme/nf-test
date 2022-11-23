@@ -1,0 +1,44 @@
+#!/bin/bash
+
+SAMPLE=$1
+
+mkdir -p $SAMPLE/sample_1/css
+mkdir -p $SAMPLE/sample_1/images_qualimapReport
+mkdir -p $SAMPLE/sample_1/raw_data_qualimapReport
+
+touch "$SAMPLE/sample_1/css/agogo.css"
+touch "$SAMPLE/sample_1/css/ajax-loader.gif"
+touch "$SAMPLE/sample_1/css/basic.css"
+touch "$SAMPLE/sample_1/css/bgfooter.png"
+touch "$SAMPLE/sample_1/css/bgtop.png"
+touch "$SAMPLE/sample_1/css/comment-bright.png"
+touch "$SAMPLE/sample_1/css/comment-close.png"
+touch "$SAMPLE/sample_1/css/comment.png"
+touch "$SAMPLE/sample_1/css/doctools.js"
+touch "$SAMPLE/sample_1/css/down.png"
+touch "$SAMPLE/sample_1/css/down-pressed.png"
+touch "$SAMPLE/sample_1/css/file.png"
+touch "$SAMPLE/sample_1/css/jquery.js"
+touch "$SAMPLE/sample_1/css/minus.png"
+touch "$SAMPLE/sample_1/css/plus.png"
+touch "$SAMPLE/sample_1/css/pygments.css"
+touch "$SAMPLE/sample_1/css/qualimap_logo_small.png"
+touch "$SAMPLE/sample_1/css/report.css"
+touch "$SAMPLE/sample_1/css/searchtools.js"
+touch "$SAMPLE/sample_1/css/underscore.js"
+touch "$SAMPLE/sample_1/css/up.png"
+touch "$SAMPLE/sample_1/css/up-pressed.png"
+touch "$SAMPLE/sample_1/css/websupport.js"
+touch "$SAMPLE/sample_1/images_qualimapReport/Coverage Profile Along Genes (High).png"
+touch "$SAMPLE/sample_1/images_qualimapReport/Coverage Profile Along Genes (Low).png"
+touch "$SAMPLE/sample_1/images_qualimapReport/Coverage Profile Along Genes (Total).png"
+touch "$SAMPLE/sample_1/images_qualimapReport/Junction Analysis.png"
+touch "$SAMPLE/sample_1/images_qualimapReport/Reads Genomic Origin.png"
+touch "$SAMPLE/sample_1/images_qualimapReport/Transcript coverage histogram.png"
+touch "$SAMPLE/sample_1/sample_1.pdf"
+touch "$SAMPLE/sample_1/qualimapReport.html"
+touch "$SAMPLE/sample_1/raw_data_qualimapReport/coverage_profile_along_genes_(high).txt"
+touch "$SAMPLE/sample_1/raw_data_qualimapReport/coverage_profile_along_genes_(low).txt"
+touch "$SAMPLE/sample_1/raw_data_qualimapReport/coverage_profile_along_genes_(total).txt"
+touch "$SAMPLE/sample_1/rnaseq_qc_results.txt"
+touch "$SAMPLE/versions.yml"

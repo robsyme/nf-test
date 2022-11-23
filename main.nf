@@ -1,22 +1,22 @@
-nextflow.enable.dsl=2
+process Make {
+    publishDir "${params.outdir}", saveAs: { it.startsWith("reports/") ? null : it }
 
-params.outdir = 'results'
+    input: 
+    val(name)
 
-process MakeTxt {
-    publishDir params.outdir
+    output: 
+    path("$name")
+    path("reports/*")
 
-    output:
-    path("*.txt"), emit: txt
-    path(".command.run"), emit: run
-
-    "echo Minimal example > example_output.txt"
+    script:
+    """
+    run $name
+    mkdir -p reports
+    find $name -name '*.pdf' -exec cp {} reports/ \\;
+    """
 }
 
 workflow {
-    MakeTxt()
-
-    MakeTxt.out.run | view { runfile ->
-        matcher = runfile.text =~ /(?ms)nxf_unstage.*?^}/
-        matcher[0]
-    }
+    Channel.of("one", "two")
+    | Make
 }
