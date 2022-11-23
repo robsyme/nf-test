@@ -43,7 +43,7 @@ touch "$SAMPLE/sample_1/rnaseq_qc_results.txt"
 touch "$SAMPLE/versions.yml"
 
 
-cat <<EOF > $SAMPLE/sample_1/report.html
+cat <<EOF > $SAMPLE/sample_1/report.$SAMPLE.html
 <!doctype html>
 <html lang=en>
 <head>

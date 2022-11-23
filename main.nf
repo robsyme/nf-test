@@ -9,12 +9,10 @@ process Make {
 
     output: 
     path("$name")
-    path("reports/*")
+    path("**/*.html")
 
     """
     run $name
-    mkdir -p reports
-    find $name -name '*.html' -exec cp {} reports/ \\;
     """
 }
 
