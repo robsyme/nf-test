@@ -12,7 +12,7 @@ process Make {
     """
     run $name
     mkdir -p reports
-    find $name -name '*.pdf' -exec cp {} reports/ \\;
+    find $name -name '*.html' -exec cp {} reports/ \\;
     """
 }
 

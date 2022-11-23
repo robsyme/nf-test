@@ -36,9 +36,22 @@ touch "$SAMPLE/sample_1/images_qualimapReport/Junction Analysis.png"
 touch "$SAMPLE/sample_1/images_qualimapReport/Reads Genomic Origin.png"
 touch "$SAMPLE/sample_1/images_qualimapReport/Transcript coverage histogram.png"
 touch "$SAMPLE/sample_1/sample_1.pdf"
-touch "$SAMPLE/sample_1/qualimapReport.html"
 touch "$SAMPLE/sample_1/raw_data_qualimapReport/coverage_profile_along_genes_(high).txt"
 touch "$SAMPLE/sample_1/raw_data_qualimapReport/coverage_profile_along_genes_(low).txt"
 touch "$SAMPLE/sample_1/raw_data_qualimapReport/coverage_profile_along_genes_(total).txt"
 touch "$SAMPLE/sample_1/rnaseq_qc_results.txt"
 touch "$SAMPLE/versions.yml"
+
+
+cat <<EOF > $SAMPLE/sample_1/report.html
+<!doctype html>
+<html lang=en>
+<head>
+<meta charset=utf-8>
+<title>$SAMPLE</title>
+</head>
+<body>
+<p>Example report for $SAMPLE</p>
+</body>
+</html>
+EOF
