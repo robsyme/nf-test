@@ -4,11 +4,12 @@ process Make {
     // publishDir "${params.outdir}", saveAs: { it.startsWith("reports/") ? null : it }
     publishDir "${params.outdir}"
 
-    input: 
+    input:
     val(name)
 
     output: 
-    path("**")
+    path("**/*.html")
+    path("${name}")
 
     """
     run $name
