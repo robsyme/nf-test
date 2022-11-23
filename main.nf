@@ -8,7 +8,7 @@ process Make {
     val(name)
 
     output: 
-    path("$name")
+    // path("$name")
     path("**/*.html")
 
     """
