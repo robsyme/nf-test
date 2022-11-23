@@ -1,3 +1,5 @@
+nextflow.enable.dsl=2
+
 process Make {
     publishDir "${params.outdir}", saveAs: { it.startsWith("reports/") ? null : it }
 
@@ -5,7 +7,7 @@ process Make {
     val(name)
 
     output: 
-    path("sample*")
+    path("$name")
     path("reports/*")
 
     """
