@@ -5,10 +5,9 @@ process Make {
     val(name)
 
     output: 
-    path("$name")
+    path("sample*")
     path("reports/*")
 
-    script:
     """
     run $name
     mkdir -p reports
@@ -17,6 +16,6 @@ process Make {
 }
 
 workflow {
-    Channel.of("one", "two")
+    Channel.of("sampleA", "sampleB")
     | Make
 }
