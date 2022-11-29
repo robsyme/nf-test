@@ -49,7 +49,7 @@ process WithGlob {
 }
 
 workflow {
-    MakeDirectory()
+    // MakeDirectory()
     DirectlyOutput()
-    WithGlob()
+    // WithGlob()
 }
