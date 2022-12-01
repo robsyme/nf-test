@@ -48,8 +48,28 @@ process WithGlob {
     """
 }
 
+process WithSaveAs {
+    publishDir "results", mode: 'copy', saveAs: { it != 'copied.csv' ? it : null }
+    publishDir "results", mode: 'copy', saveAs: { it == 'copied.csv' ? "out/one/two/${it}" : null }
+    container 'ubuntu'
+
+    output:
+    path("out")
+    path("*.csv")
+
+    """
+    mkdir -p out/one/two
+    echo "os,interface" >> out/one/two/saveas_notcopied.csv
+    echo "linux,cli" >> out/one/two/saveas_notcopied.csv
+    echo "windows,gui" >> out/one/two/saveas_notcopied.csv
+    echo "foo,bar" >> out/one/two/copied.csv
+    find out -name copied.csv -exec mv {} . \\;
+    """
+}
+
 workflow {
-    // MakeDirectory()
+    MakeDirectory()
     DirectlyOutput()
-    // WithGlob()
+    WithGlob()
+    WithSaveAs()
 }
