@@ -5,3 +5,7 @@ reports:
     display: "Data about people and places"
   "**/direct.csv":
     display: "Data about people and places"
+  "**/saveas_notcopied.csv":
+    display: "Should not appear"
+  "**/copied.csv":
+    display: "Published using trick"
