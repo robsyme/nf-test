@@ -1,11 +1,7 @@
-nextflow.enable.dsl=2
-
-process Dummy {
-    debug true
-
-    "echo Hello world"
-}
+include { EXAMPLE } from './modules/main'
+include { EXAMPLE as EXAMPLE_B } from './modules/main'
 
 workflow {
-    Dummy()
+    Channel.of("Nextflow")
+    | ( EXAMPLE & EXAMPLE_B)
 }
