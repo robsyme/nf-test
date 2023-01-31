@@ -43,7 +43,7 @@ process MakeSmallFiles {
 
 process Summarize {
     input:
-    path(files)
+    val(signal)
 
     when:
     params.summarize
