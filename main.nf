@@ -14,7 +14,9 @@ process MakeBigFile {
     def filesize = new MemoryUnit(params.bigfilesize)
     """
     for j in `seq 1 ${params.bigfilecountmulti}`; do
-        dd if=/dev/random bs=1M count=${filesize.toMega()} of=out.${i}.\${j}.dat
+        echo -n Creating file \$j of ${params.bigfilecountmulti}...
+        dd if=/dev/zero bs=1M count=${filesize.toMega()} of=out.${i}.\${j}.dat
+        echo ' done'
     done
     """
 }
