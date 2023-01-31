@@ -12,7 +12,11 @@ process MakeBigFile {
 
     script:
     def filesize = new MemoryUnit(params.bigfilesize)
-    "dd if=/dev/zero bs=1M count=${filesize.toMega()} of=out.${i}.dat"
+    """
+    for j in `seq 1 ${params.bigfilecountmulti}; do
+        dd if=/dev/random bs=1M count=${filesize.toMega()} of=out.${i}.${j}.dat
+    done
+    """
 }
 
 process MakeSmallFiles {
