@@ -62,5 +62,6 @@ workflow {
     MakeBigFile.out
     | mix(MakeSmallFiles.out)
     | collect 
+    | map { true }
     | Summarize 
 }
