@@ -1,11 +1,12 @@
 nextflow.enable.dsl=2
 
-process Dummy {
-    debug true
-
-    "echo 'Hello world!'"
+process FindSize {
+    input: path(infile)
+    output: path("outfile.txt")
+    script: "du -sh . > outfile.txt"
 }
 
 workflow {
-    Dummy()
+    Channel.fromPath(params.input)
+    | FindSize
 }
