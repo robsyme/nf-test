@@ -1,11 +1,12 @@
 nextflow.enable.dsl=2
 
-process Dummy {
+process Sup {
     debug true
-
-    "echo 'Hello world!'"
+    input: val(name)
+    script: "sup $name"
 }
 
 workflow {
-    Dummy()
+    Channel.from("Jordi", "Paolo")
+    | Sup
 }
