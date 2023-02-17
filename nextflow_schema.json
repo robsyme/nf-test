@@ -21,17 +21,26 @@
                     "fa_icon": "fas fa-folder-open"
                 }
             }
+        },
+        "another_group": {
+            "title": "Another group",
+            "type": "object",
+            "description": "More options to go here",
+            "default": "",
+            "properties": {
+                "second": {
+                    "type": "string",
+                    "default": "None"
+                }
+            }
         }
     },
     "allOf": [
         {
             "$ref": "#/definitions/input_output_options"
+        },
+        {
+            "$ref": "#/definitions/another_group"
         }
-    ],
-    "properties": {
-        "second": {
-            "type": "string",
-            "default": null
-        }
-    }
+    ]
 }
