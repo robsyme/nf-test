@@ -20,6 +20,11 @@ process FusionTest {
     now="\$(TZ=EST5EDT date +'%d-%b-%Y_%H%M') EDT"
     echo "============ Finished STAR-Fusion \$now ============="
     echo -e "STAR-FUSION finished at:\t \$now" >> ${sample_id}.job_stats.txt
+    cat <<-EOF > versions.yml
+    "${task.process}":
+        fastp: \$(fastp --version 2>&1 | sed -e "s/fastp //g")
+        container: "${task.container}"
+    EOF
     """
 }
 
