@@ -4,7 +4,6 @@ process FusionTest {
     input: val(sample_id)
     script:
     """
-    #which STAR-Fusion
     date 
     echo "ALL OK"
     now="\$(TZ=EST5EDT date +'%d-%b-%Y_%H%M') EDT"
