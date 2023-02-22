@@ -14,9 +14,9 @@ process FusionTest {
     #export TMPDIR=./tempdir_star
     #touch 123.txt
     #cat 123.txt > abcdef.txt 
-    #now="\$(TZ=EST5EDT date +'%d-%b-%Y_%H%M') EDT"
+    now="\$(TZ=EST5EDT date +'%d-%b-%Y_%H%M') EDT"
     #echo "============ Finished STAR-Fusion \$now ============="
-    #echo -e "STAR-FUSION finished at:\t \$now" >> ${sample_id}.job_stats.txt
+    echo -e "STAR-FUSION finished at:\t \$now" >> ${sample_id}.job_stats.txt
     cat <<-EOF > versions.yml
     "${task.process}":
         fastp: \$(fastp --version 2>&1 | sed -e "s/fastp //g")
