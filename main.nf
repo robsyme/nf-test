@@ -5,15 +5,15 @@ process FusionTest {
     script:
     """
     #which STAR-Fusion
-    #date 
-    #echo "ALL OK"
-    #now="\$(TZ=EST5EDT date +'%d-%b-%Y_%H%M') EDT"
-    #echo "============ Running STAR-Fusion \$now ============="
-    #echo -e "STAR-FUSION started at:\t \$now" > ${sample_id}.job_stats.txt
+    date 
+    echo "ALL OK"
+    now="\$(TZ=EST5EDT date +'%d-%b-%Y_%H%M') EDT"
+    echo "============ Running STAR-Fusion \$now ============="
+    echo -e "STAR-FUSION started at:\t \$now" > ${sample_id}.job_stats.txt
     mkdir ./tempdir_star
     export TMPDIR=./tempdir_star
-    #touch 123.txt
-    #cat 123.txt > abcdef.txt 
+    touch 123.txt
+    cat 123.txt > abcdef.txt 
     now="\$(TZ=EST5EDT date +'%d-%b-%Y_%H%M') EDT"
     #echo "============ Finished STAR-Fusion \$now ============="
     echo -e "STAR-FUSION finished at:\t \$now" >> ${sample_id}.job_stats.txt
