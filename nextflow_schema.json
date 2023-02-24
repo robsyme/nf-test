@@ -4,16 +4,29 @@
     "title": "Rob Syme test template pipeline parameters",
     "description": "",
     "type": "object",
-    "properties": {
-        "tasks": {
-            "type": "integer",
-            "default": 10,
-            "description": "Number of tasks to spawn"
-        },
-        "sleep": {
-            "type": "integer",
-            "default": 10,
-            "description": "How long each task should sleep for"
+    "definitions": {
+        "basic_options": {
+            "title": "Basic options",
+            "type": "object",
+            "description": "",
+            "default": "",
+            "properties": {
+                "tasks": {
+                    "type": "integer",
+                    "default": 10,
+                    "description": "Number of tasks to spawn"
+                },
+                "sleep": {
+                    "type": "integer",
+                    "default": 10,
+                    "description": "How long each task should sleep for"
+                }
+            }
         }
-    }
+    },
+    "allOf": [
+        {
+            "$ref": "#/definitions/basic_options"
+        }
+    ]
 }
