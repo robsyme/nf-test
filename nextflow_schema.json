@@ -1,0 +1,19 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "$id": "https://raw.githubusercontent.com/Rob Syme test template/master/nextflow_schema.json",
+    "title": "Rob Syme test template pipeline parameters",
+    "description": "",
+    "type": "object",
+    "properties": {
+        "tasks": {
+            "type": "integer",
+            "default": 10,
+            "description": "Number of tasks to spawn"
+        },
+        "sleep": {
+            "type": "integer",
+            "default": 10,
+            "description": "How long each task should sleep for"
+        }
+    }
+}
