@@ -1,11 +1,20 @@
 nextflow.enable.dsl=2
 
 process Dummy {
-    debug true
+    cpus 1
+    memory '1G'
 
-    "echo 'Hello world!'"
+    input:
+    val(num)
+
+    script:
+    """
+    sleep ${params.sleep}
+    echo 'Hello world, found $num'
+    """
 }
 
 workflow {
-    Dummy()
+    Channel.of(1..(params.tasks))
+    | Dummy
 }
