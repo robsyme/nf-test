@@ -1,11 +1,30 @@
 nextflow.enable.dsl=2
 
-process Dummy {
-    debug true
+params.input = 'quilt+s3://quilt-example#package=examples/hurdat'
+params.outdir = '/var/tmp'
 
-    "echo 'Hello world!'"
+packageFiles = Channel.fromPath(params.input)
+
+process transfer {
+    publishDir params.outdir, mode: 'copy', overwrite: true
+
+    container 'ubuntu:20.04'
+
+    input:
+    path x
+
+    output:
+    path 'output/*'
+
+    """
+    mkdir -p output
+    cp -r $x output
+    echo output/$x
+    """
 }
 
 workflow {
-    Dummy()
+    packageFiles 
+    | transfer 
+    | view
 }
