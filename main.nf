@@ -1,11 +1,13 @@
 nextflow.enable.dsl=2
 
-process Dummy {
-    debug true
-
-    "echo 'Hello world!'"
+process TestCache {
+    container 'thisdoesnotexist:latest'
+    input: val(meta)
+    output: tuple val(meta), path("*")
+    script: "touch ${meta}.txt "
 }
 
 workflow {
-    Dummy()
+    Channel.of(1)
+    | TestCache
 }
