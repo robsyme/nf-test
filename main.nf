@@ -1,11 +1,19 @@
 nextflow.enable.dsl=2
 
-process Dummy {
-    debug true
+process MakeFile {
+    input: val(name)
+    output: path("out.txt")
+    script: "echo $name > out.txt"
+}
 
-    "echo 'Hello world!'"
+process UseFile {
+    cpus { infile.size() }
+    input: path(infile)
+    script: "cat $infile $infile > doubled.txt"
 }
 
 workflow {
-    Dummy()
+    Channel.of("Vince", "Rhonda", "Thomas", "Rob")
+    | MakeFile
+    | UseFile
 }
