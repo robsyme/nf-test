@@ -2,13 +2,14 @@ nextflow.enable.dsl=2
 
 process MakeFile {
     input: val(name)
-    output: path("out.txt")
+    output: tuple val(name), path("out.txt")
     script: "echo $name > out.txt"
 }
 
 process UseFile {
+    tag { name }
     cpus { infile.size() }
-    input: path(infile)
+    input: tuple val(name), path(infile)
     script: "cat $infile $infile > doubled.txt"
 }
 
