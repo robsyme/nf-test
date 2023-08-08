@@ -1,11 +1,10 @@
 nextflow.enable.dsl=2
 
-process Dummy {
+process CheckUlimit {
     debug true
-
-    "echo 'Hello world!'"
+    script: "ulimit -a"
 }
 
 workflow {
-    Dummy()
+    CheckUlimit()
 }
