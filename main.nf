@@ -1,11 +1,19 @@
-nextflow.enable.dsl=2
+import groovy.json.JsonSlurper
 
-process Dummy {
-    debug true
+process PROCESS {
+    input: val(sample)
 
-    "echo 'Hello world!'"
+    output: tuple val(sample), path("metadata.json")
+
+    script:
+    """
+    echo '{"sample_id": "ABC", "read_structure": "+T +T", "process": true, "size": 1235}' > metadata.json
+    """
 }
 
 workflow {
-    Dummy()
+    Channel.of("Verve")
+    | PROCESS
+    | map { sample, json -> [sample, new JsonSlurper().parse(json)] }
+    | view
 }
