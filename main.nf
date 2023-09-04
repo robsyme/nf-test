@@ -1,11 +1,14 @@
 nextflow.enable.dsl=2
 
-process Dummy {
-    debug true
-
-    "echo 'Hello world!'"
+process MakeFile {
+    input: tuple val(company), val(name)
+    output: tuple val(company), path("out.txt")
+    script: "sleep \$((RANDOM % 4)); echo $name > out.txt"
 }
 
 workflow {
-    Dummy()
+    Channel.of(["Seqera", "Rob S"], ["Altos", "Rob L"], ["Seqera", "Harshil P"], ["Altos", "Felix K"])
+    | MakeFile
+    | groupTuple()
+    | view
 }
