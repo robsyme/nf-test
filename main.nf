@@ -2,10 +2,11 @@ nextflow.enable.dsl=2
 
 process Dummy {
     debug true
+    conda 'cowsay'
 
-    "echo 'Hello world!'"
+    "cowsay 'Hello world!'"
 }
 
 workflow {
-    Dummy()
+    log.info "Found params: $params"
 }
