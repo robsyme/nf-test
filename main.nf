@@ -5,6 +5,11 @@ process CreateFile {
     script: "echo 'Hello world!' > out.txt"
 }
 
+process CreateDir {
+    output: path("outputs")
+    script: "mkdir outputs && echo done > outputs/final.dat"
+}
+
 // See https://github.com/nextflow-io/nextflow/issues/1636
 // This is the only way to publish files from a workflow whilst
 // decoupling the publish from the process steps.
@@ -16,5 +21,11 @@ process PublishArtifact {
 }
 
 workflow {
-    CreateFile() | PublishArtifact
+    CreateFile() 
+    CreateDir()
+
+    CreateFile.out
+    | mix(CreateDir.out)
+    | PublishArtifact
+
 }
