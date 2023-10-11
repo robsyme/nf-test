@@ -12,7 +12,7 @@ process PublishArtifact {
     publishDir params.outdir, saveAs: { it - ~/^out\//}
     input: path "in/*"
     output: path "out/*"
-    script: "mkdir -p out && cp in/* out"
+    script: "mkdir -p out && cp -r in/* out"
 }
 
 workflow {
