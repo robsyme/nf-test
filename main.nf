@@ -9,12 +9,11 @@ process CreateFile {
 // This is the only way to publish files from a workflow whilst
 // decoupling the publish from the process steps.
 process PublishArtifact {
-    publishDir params.outdir
-    input: path fname
-    output: path fname
-    script: "echo 'Writing output files'"
+    publishDir params.outdir, saveAs: { it - ~/^out\//}
+    input: path "in/*"
+    output: path "out/*"
+    script: "mkdir -p out && cp in/* out"
 }
-
 
 workflow {
     CreateFile() | PublishArtifact
