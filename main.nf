@@ -1,11 +1,23 @@
 nextflow.enable.dsl=2
 
-process Dummy {
-    debug true
+process MakeFiles {
+    publishDir path: "${params.outdir}/${sample_id}"
 
-    "echo 'Hello world!'"
+    input: 
+    val(sample_id)
+
+    output: 
+    path(".command.*")
+    path("${sample_id}")
+
+    script:
+    """
+    mkdir "${sample_id}"
+    echo example > ${sample_id}/${sample_id}_fastqc.txt
+    echo example > ${sample_id}/${sample_id}_fastqc.html
+    """
 }
 
 workflow {
-    Dummy()
+    Channel.of("FOO", "BAR") | MakeFiles
 }
