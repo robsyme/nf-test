@@ -8,7 +8,7 @@ process MakeFiles {
 
     output: 
     path(".command.*")
-    path("${sample_id}")
+    path("${sample_id}/*")
 
     script:
     """
