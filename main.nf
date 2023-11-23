@@ -1,11 +1,16 @@
 nextflow.enable.dsl=2
 
-process Dummy {
+process Waitlift {
     debug true
-
-    "echo 'Hello world!'"
+    input: tuple val(num_files), val(size)    
+    script: "waitlift make --num $num_files --size $size data"
 }
 
 workflow {
-    Dummy()
+    num_files = Channel.of(params.num_files)
+    sizes = Channel.of((params.max_memory as nextflow.util.MemoryUnit).toMega())
+
+    num_files
+    | combine(sizes)
+    | Waitlift
 }
