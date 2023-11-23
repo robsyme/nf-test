@@ -1,13 +1,9 @@
 nextflow.enable.dsl=2
 
-params.num_files = 100
-params.filesize = '5GB'
+include { Waitlift } from './modules/local/waitlift'
 
-process Waitlift {
-    debug true
-    input: tuple val(num_files), val(size)    
-    script: "waitlift make --num $num_files --size $size data"
-}
+params.num_files = 100
+params.filesize = '1GB'
 
 workflow {
     num_files = Channel.of(params.num_files)
