@@ -1,0 +1,16 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "$id": "https://raw.githubusercontent.com/Rob Syme test template/master/nextflow_schema.json",
+  "title": "Rob Syme test template pipeline parameters",
+  "description": "",
+  "type": "object",
+  "properties": {
+    "withdefault": {
+      "type": "string",
+      "default": "results"
+    },
+    "defaultisnull": {
+      "type": "string"
+    }
+  }
+}
