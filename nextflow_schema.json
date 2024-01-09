@@ -11,6 +11,13 @@
     },
     "defaultisnull": {
       "type": "string"
+    },
+    "genome": {
+      "type": "string",
+      "default": "human"
+    },
+    "name": {
+      "type": "string"
     }
   }
 }
