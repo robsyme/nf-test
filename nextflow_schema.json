@@ -5,19 +5,9 @@
   "description": "",
   "type": "object",
   "properties": {
-    "withdefault": {
-      "type": "string",
-      "default": "results"
-    },
-    "defaultisnull": {
-      "type": "string"
-    },
-    "genome": {
-      "type": "string",
-      "default": "human"
-    },
     "name": {
-      "type": "string"
+      "type": "string",
+      "default": "\"Default from schema\""
     }
   }
 }
