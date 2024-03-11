@@ -3,8 +3,8 @@ nextflow.enable.dsl=2
 process TestGPU {
     debug true
     accelerator 1
-    container 'wave.seqera.io/wt/7cc987bfcc02/wave/build:pytorch--6549ec36d7c141e7'
-    containerOptions = '-e NVIDIA_DRIVER_CAPABILITIES=gpu,compute,utility --gpus all'
+    container 'pytorch/pytorch:latest'
+    containerOptions = "--gpus 'all,capabilities=utility'"
 
     script: "nvidia-smi"
 }
@@ -12,8 +12,8 @@ process TestGPU {
 process TestPython {
     debug true
     accelerator 1
-    container 'wave.seqera.io/wt/7cc987bfcc02/wave/build:pytorch--6549ec36d7c141e7'
-    containerOptions = '-e NVIDIA_DRIVER_CAPABILITIES=gpu,compute,utility --gpus all'
+    container 'pytorch/pytorch:latest'
+    containerOptions = "--gpus 'all,capabilities=utility'"
 
     script: "test.py"
 }
