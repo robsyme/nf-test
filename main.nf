@@ -1,13 +1,13 @@
 nextflow.enable.dsl=2
 
-process TestGPU {
-    debug true
-    accelerator 1
-    container 'pytorch/pytorch:latest'
-    containerOptions = "--gpus 'all,capabilities=utility'"
+// process TestGPU {
+//     debug true
+//     accelerator 1
+//     container 'pytorch/pytorch:latest'
+//     containerOptions = "--gpus 'all,capabilities=utility'"
 
-    script: "nvidia-smi"
-}
+//     script: "nvidia-smi"
+// }
 
 process TestPython {
     debug true
@@ -15,10 +15,14 @@ process TestPython {
     container 'pytorch/pytorch:latest'
     containerOptions = "--gpus 'all,capabilities=utility'"
 
-    script: "test.py"
+    script:
+    """
+    nvidia-smi
+    test.py
+    """
 }
 
 workflow {
     TestPython()
-    TestGPU()
+    // TestGPU()
 }
