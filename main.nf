@@ -13,7 +13,7 @@ process TestPython {
     debug true
     accelerator 1
     container 'pytorch/pytorch:latest'
-    containerOptions = "--gpus 'all,capabilities=utility'"
+    // containerOptions = "--gpus 'all,capabilities=utility'"
 
     script:
     """
