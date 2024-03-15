@@ -1,9 +1,14 @@
 nextflow.enable.dsl=2
 
 process Dummy {
+    secret 'ROBSYME_SECRET'
     debug true
 
-    "echo 'Hello world!'"
+    script:
+    """
+    echo 'Hello world!'
+    echo Found secret: \$ROBSYME_SECRET
+    """
 }
 
 workflow {
