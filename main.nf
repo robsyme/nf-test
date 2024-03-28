@@ -2,13 +2,19 @@
 
 workflow {
     First()
-    | Second
-    | Third
+
+    First.out.value | Second
+    Second.out.value | Third
 }
 
 
 process First {
-	output: tuple val(1), path('*')
+	publishDir params.outdir, saveAs: { filename -> filename == "my-folder/all.txt" ? "my-folder/all.${task.name}.txt" : filename }
+
+	output:
+	val(1), emit: value
+	path('**'), emit: files
+	
 	script:
 	"""
     mkdir -p my-folder/subfolder1
@@ -18,23 +24,36 @@ process First {
 }
 
 process Second {
-	input: tuple val(x), path(_)
-	output: tuple val(x), path("my-folder")
+	publishDir params.outdir, saveAs: { filename -> filename == "my-folder/all.txt" ? "my-folder/all.${task.name}.txt" : filename }
+
+	input:
+	val(x)
+
+	output: 
+	val(x), emit: value
+	path('**'), emit: files
+
 	script:
 	"""
     mkdir -p my-folder/subfolder2
-    echo 2 > my-folder/all.txt
+    echo 12 > my-folder/all.txt
     echo 2 > my-folder/subfolder2/2.txt
 	"""
 }
 
 process Third {
-	input: tuple val(x), path(_)
-	output: path('my-folder')
+	publishDir params.outdir, saveAs: { filename -> filename == "my-folder/all.txt" ? "my-folder/all.${task.name}.txt" : filename }
+
+	input:
+	val(x)
+	
+	output:
+	path('**')
+	
 	script:
 	"""
     mkdir -p my-folder/subfolder3
-    echo 3 > my-folder/all.txt
+    echo 123 > my-folder/all.txt
     echo 3 > my-folder/subfolder3/3.txt
 	"""
 }
