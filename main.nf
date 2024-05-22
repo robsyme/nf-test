@@ -11,9 +11,10 @@ process DoSomething {
 
     input:
     path(html)
+    path(img)
 
     output:
-    path("*", includeInputs: true)
+    path("*.html", includeInputs: true)
 
     script:
     "true"
