@@ -1,0 +1,5 @@
+reports:
+  index.html:
+    display: "Example HTML report"
+  seqera.png:
+    display: "A simple png"
