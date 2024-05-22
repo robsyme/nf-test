@@ -11,7 +11,6 @@ process DoSomething {
 
     input:
     path(html)
-    path(img)
 
     output:
     path("*", includeInputs: true)
