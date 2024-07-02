@@ -14,7 +14,7 @@ process DoSomething {
     path(img)
 
     output:
-    path("out", includeInputs: true)
+    path("out/*.html", includeInputs: true)
 
     script:
     """
