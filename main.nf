@@ -14,9 +14,11 @@ process DoSomething {
     path(img)
 
     output:
-    path("*.html", includeInputs: true)
-    path("*.png", includeInputs: true)
+    path("out", includeInputs: true)
 
     script:
-    "true"
+    """
+    mkdir -p out
+    cp $html $img out/
+    """
 }
