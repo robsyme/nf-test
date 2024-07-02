@@ -1,5 +1,5 @@
 reports:
-  *.html:
+  "*.html":
     display: "Example HTML report"
-  *.png:
+  "*.png":
     display: "A simple png"
