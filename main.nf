@@ -14,8 +14,7 @@ process DoSomething {
     path(img)
 
     output:
-    path("out/*.html")
-    path("out")
+    path("out/*")
 
     script:
     """
