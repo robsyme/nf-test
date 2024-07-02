@@ -15,6 +15,7 @@ process DoSomething {
 
     output:
     path("*.html", includeInputs: true)
+    path("*.png", includeInputs: true)
 
     script:
     "true"
