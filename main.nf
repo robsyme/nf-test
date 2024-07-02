@@ -7,7 +7,7 @@ workflow {
 }
 
 process DoSomething {
-    publishDir "${params.outdir}"
+    publishDir "${params.outdir}", mode: 'copy'
 
     input:
     path(html)
