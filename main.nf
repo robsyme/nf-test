@@ -1,11 +1,11 @@
-nextflow.enable.dsl=2
-
-process Dummy {
-    debug true
-
-    "echo 'Hello world!'"
+workflow {
+    Channel.of("Rob")
+    | SayHi
 }
 
-workflow {
-    Dummy()
+process SayHi {
+    publishDir params.outdir, mode: 'copy'
+    input: val(name)
+    output: path("*.txt")
+    script: "echo 'Hi $name!' > out.${name}.txt"
 }
