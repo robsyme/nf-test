@@ -1,5 +1,5 @@
 workflow {
-    Channel.of("Rob")
+    Channel.of(params.name)
     | SayHi
 }
 
