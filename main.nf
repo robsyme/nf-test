@@ -2,6 +2,7 @@
 
 process Dummy {
     debug true
+    beforeScript 'apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y python3'
     input: val(memInGb)
 
     """
