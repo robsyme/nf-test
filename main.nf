@@ -6,7 +6,7 @@ process Dummy {
     input: val(memInGb)
 
     """
-    #!/usr/bin/env python
+    #!/usr/bin/env python3
     import time
     try:
         foo = bytearray($memInGb * 1000000000)
