@@ -11,13 +11,13 @@
       "description": "",
       "default": "",
       "properties": {
-        "name": {
+        "moniker": {
           "type": "string",
           "default": "Workflow B",
           "description": "Name to bid farewell"
         }
       },
-      "required": ["name"]
+      "required": ["moniker"]
     }
   },
   "allOf": [

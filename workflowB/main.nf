@@ -1,7 +1,7 @@
 include { SayBye } from '../modules/seqera/saybye'
 
 workflow {
-    Channel.of(params.name)
+    Channel.of(params.moniker)
     | SayBye
-    | view
+    | view { "WorkflowB found: $it.text" }
 }
