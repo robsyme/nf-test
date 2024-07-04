@@ -7,8 +7,12 @@ process Dummy {
     """
     #!/usr/bin/env python
     import time
-    foo = bytearray($memInGb * 1000000000)
-    time.sleep(10)
+    try:
+        foo = bytearray($memInGb * 1000000000)
+        time.sleep(10)
+    except MemoryError:
+        print("Exiting afer MemoryError")
+        exit(42)
     """
 }
 
