@@ -1,11 +1,17 @@
-nextflow.enable.dsl=2
+#!/usr/bin/env nextflow
 
 process Dummy {
     debug true
+    input: val(memInGb)
 
-    "echo 'Hello world!'"
+    """
+    #!/usr/bin/env python
+    import time
+    foo = bytearray($memInGb * 1000000000)
+    time.sleep(10)
+    """
 }
 
 workflow {
-    Dummy()
+    Channel.of(params.memory) | Dummy
 }

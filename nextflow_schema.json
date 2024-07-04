@@ -1,0 +1,28 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "$id": "https://raw.githubusercontent.com/Rob Syme test template/master/nextflow_schema.json",
+  "title": "Rob Syme test template pipeline parameters",
+  "description": "",
+  "type": "object",
+  "definitions": {
+    "general": {
+      "title": "General",
+      "type": "object",
+      "description": "",
+      "default": "",
+      "properties": {
+        "memory": {
+          "type": "integer",
+          "default": 1,
+          "description": "Amount of memory to consume (in GB)"
+        }
+      },
+      "required": ["memory"]
+    }
+  },
+  "allOf": [
+    {
+      "$ref": "#/definitions/general"
+    }
+  ]
+}
