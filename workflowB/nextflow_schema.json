@@ -1,0 +1,28 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "$id": "https://raw.githubusercontent.com/Workflow B in monorepo/master/nextflow_schema.json",
+  "title": "Workflow B in monorepo pipeline parameters",
+  "description": "",
+  "type": "object",
+  "definitions": {
+    "simple_options": {
+      "title": "Simple Options",
+      "type": "object",
+      "description": "",
+      "default": "",
+      "properties": {
+        "name": {
+          "type": "string",
+          "default": "Workflow B",
+          "description": "Name to bid farewell"
+        }
+      },
+      "required": ["name"]
+    }
+  },
+  "allOf": [
+    {
+      "$ref": "#/definitions/simple_options"
+    }
+  ]
+}

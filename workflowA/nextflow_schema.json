@@ -1,0 +1,28 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "$id": "https://raw.githubusercontent.com/Workflow A in monorepo/master/nextflow_schema.json",
+  "title": "Workflow A in monorepo pipeline parameters",
+  "description": "",
+  "type": "object",
+  "definitions": {
+    "simple_options": {
+      "title": "Simple Options",
+      "type": "object",
+      "description": "",
+      "default": "",
+      "properties": {
+        "name": {
+          "type": "string",
+          "default": "Workflow A",
+          "description": "Name to greet"
+        }
+      },
+      "required": ["name"]
+    }
+  },
+  "allOf": [
+    {
+      "$ref": "#/definitions/simple_options"
+    }
+  ]
+}
