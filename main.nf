@@ -1,11 +1,6 @@
-nextflow.enable.dsl=2
-
-process Dummy {
-    debug true
-
-    "echo 'Hello world!'"
-}
+#!/usr/bin/env nextflow
 
 workflow {
-    Dummy()
+    log.info "Org: ${params.org}"
+    log.info "Title: ${params.title}"
 }
