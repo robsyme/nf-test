@@ -7,5 +7,6 @@ process Dummy {
 }
 
 workflow {
-    Dummy()
+    lic = System.getenv().get("NXF_XPACK_LICENSE")
+    log.info "Found license: ${lic}"
 }
