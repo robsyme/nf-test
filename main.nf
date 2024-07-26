@@ -1,11 +1,23 @@
 nextflow.enable.dsl=2
 
-process Dummy {
+process WithSharedMemory {
+    containerOptions '--shm-size=256m'
     debug true
+    """
+    echo "shm-size: "
+    df -h /dev/shm
+    """
+}
 
-    "echo 'Hello world!'"
+process WithOutSharedMemory {
+    debug true
+    """
+    echo "shm-size: "
+    df -h /dev/shm
+    """
 }
 
 workflow {
-    Dummy()
+    WithSharedMemory()
+    WithOutSharedMemory()
 }
