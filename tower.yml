@@ -1,0 +1,5 @@
+reports:
+  "example.txt":
+    display: "Example text file"
+  "outputs/*.txt":
+    display: "Any text file"
