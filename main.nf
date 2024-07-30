@@ -1,11 +1,13 @@
 nextflow.enable.dsl=2
 
-process Dummy {
+process Example {
     debug true
+    input: path(infile)
 
-    "echo 'Hello world!'"
+    "ls -lha"
 }
 
 workflow {
-    Dummy()
+    Channel.fromPath(params.input)
+    | Example
 }
