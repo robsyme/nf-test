@@ -1,11 +1,12 @@
 nextflow.enable.dsl=2
 
-process Dummy {
+process Debug {
+    accelerator 1
     debug true
 
-    "echo 'Hello world!'"
+    "nvidia-smi"
 }
 
 workflow {
-    Dummy()
+    Debug()
 }
