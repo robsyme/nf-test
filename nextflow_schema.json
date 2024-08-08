@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/robsyme/nf-test/schema-testing/nextflow_schema.json",
+  "title": "nf-core/airrflow pipeline parameters",
+  "description": "Example schema for bug report",
+  "type": "object",
+  "$defs": {
+    "example_options": {
+      "title": "Example",
+      "type": "object",
+      "description": "Example",
+      "properties": {
+        "my_threshold": {
+          "oneOf": [
+            {
+              "type": "string",
+              "enum": ["auto"]
+            },
+            {
+              "type": "number",
+              "minimum": 0
+            }
+          ],
+          "type": ["string", "number"],
+          "default": "auto",
+          "description": "Either a number or auto. Default: 'auto'"
+        }
+      }
+    }
+  }
+}
