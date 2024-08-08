@@ -1,12 +1,21 @@
 nextflow.enable.dsl=2
 
-process Debug {
+process DebugCli {
     accelerator 1
     debug true
 
     "nvidia-smi"
 }
 
+process DebugScript {
+    accelerator 1
+    debug true
+
+    "test.py"
+}
+ 
+
 workflow {
-    Debug()
+    DebugCli()
+    DebugScript()
 }
