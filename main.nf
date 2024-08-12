@@ -3,8 +3,8 @@ nextflow.enable.dsl=2
 process UseMem {
     memory '5 GB'
 
-    input: val(mem)
-    script: "allocate.py $mem"
+    input: val(i)
+    script: "allocate.py $i $i"
 }
 
 workflow {

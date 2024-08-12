@@ -12,6 +12,7 @@ if __name__ == "__main__":
         sys.exit(1)
     
     num_gb = int(sys.argv[1])
+    num_mins = int(sys.argv[2])
     # num_bytes = int(sys.argv[1])
     # num_blocks = int(sys.argv[2])
     
@@ -20,6 +21,6 @@ if __name__ == "__main__":
 
     # Sleep for 2 minutes (120 seconds)
     print("Memory allocated. Sleeping for 2 minutes...")
-    time.sleep(120)
+    time.sleep(60*num_mins)
     
     print("Program finished.")
