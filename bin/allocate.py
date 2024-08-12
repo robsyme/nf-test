@@ -7,7 +7,7 @@ def allocate_memory(num_bytes, num_blocks):
     return result
 
 if __name__ == "__main__":
-    if len(sys.argv) != 2:
+    if len(sys.argv) != 3:
         print(f"Usage: {sys.argv[0]} <num_gb>")
         sys.exit(1)
     
