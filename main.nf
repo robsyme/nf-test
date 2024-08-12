@@ -1,11 +1,12 @@
 nextflow.enable.dsl=2
 
-process Dummy {
-    debug true
+process UseMem {
+    memory '5 GB'
 
-    "echo 'Hello world!'"
+    input: val(mem)
+    script: "allocate.py $mem"
 }
 
 workflow {
-    Dummy()
+    Channel.of(1..3) | UseMem
 }
