@@ -2,6 +2,16 @@
 import torch
 import time
 
+# Function to print GPU and CUDA details
+def print_gpu_info():
+    if torch.cuda.is_available():
+        gpu_name = torch.cuda.get_device_name(0)
+        cuda_version = torch.version.cuda
+        print(f"GPU: {gpu_name}")
+        print(f"CUDA Version: {cuda_version}")
+    else:
+        print("CUDA is not available on this system.")
+
 # Define a simple function to perform some calculations on the CPU
 def cpu_computation(size):
     x = torch.rand(size, size)
@@ -17,8 +27,11 @@ def gpu_computation(size):
     torch.cuda.synchronize()  # Ensure the computation is done
     return result
 
+# Print GPU and CUDA details
+print_gpu_info()
+
 # Define the size of the matrices
-size = 100000
+size = 1000
 
 # Measure time for CPU computation
 start_time = time.time()
@@ -41,4 +54,3 @@ else:
 # Print the time difference
 time_difference = cpu_time - gpu_time
 print(f"Time difference (CPU - GPU): {time_difference:.4f} seconds")
-
