@@ -10,6 +10,7 @@ process DebugCli {
 process DebugScript {
     debug true
     accelerator 1
+    memory '10G'
 
     "test.py"
 }
