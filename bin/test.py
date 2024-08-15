@@ -31,7 +31,7 @@ def gpu_computation(size):
 print_gpu_info()
 
 # Define the size of the matrices
-size = 1000
+size = 10000
 
 # Measure time for CPU computation
 start_time = time.time()
