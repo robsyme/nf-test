@@ -18,7 +18,7 @@ def gpu_computation(size):
     return result
 
 # Define the size of the matrices
-size = 1000
+size = 100000
 
 # Measure time for CPU computation
 start_time = time.time()
