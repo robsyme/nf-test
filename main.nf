@@ -1,12 +1,16 @@
 nextflow.enable.dsl=2
 
 process UseMem {
-    memory '5 GB'
+    input:
+    val duration
+    val memory
 
-    input: val(i)
-    script: "allocate.py ${params.memory} ${params.time}"
+    script: 
+    "allocate.py ${memory.giga} ${duration.minutes}"
 }
 
 workflow {
-    UseMem()
+    duration = Duration.of(params.time)
+    memory = MemoryUnit.of(params.memory)
+    UseMem(duration, memory)
 }
