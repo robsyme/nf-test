@@ -4,9 +4,9 @@ process UseMem {
     memory '5 GB'
 
     input: val(i)
-    script: "allocate.py $i $i"
+    script: "allocate.py ${params.memory} ${params.time}"
 }
 
 workflow {
-    Channel.of(1..3) | UseMem
+    UseMem()
 }
