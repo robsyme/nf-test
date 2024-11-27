@@ -1,11 +1,13 @@
 nextflow.enable.dsl=2
 
-process Dummy {
-    debug true
+params.workflowId = TOWER_WORKFLOW_ID
 
-    "echo 'Hello run $TOWER_WORKFLOW_ID!'"
+process SayHi {
+    debug true
+    input: val(name)
+    "echo 'Hello run $name!'"
 }
 
 workflow {
-    Dummy()
+    SayHi(params.workflowId)
 }
