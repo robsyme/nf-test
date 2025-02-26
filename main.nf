@@ -1,11 +1,26 @@
 nextflow.enable.dsl=2
 
+params.outdir = 's3://scidev-testing'
+
+workflow {
+    Dummy() 
+    | Publish
+}
+
 process Dummy {
     debug true
 
-    "echo 'Hello world!'"
+    output: path("dummy.txt")
+
+    "echo 'Hello world!' > dummy.txt"
 }
 
-workflow {
-    Dummy()
+process Publish {
+    publishDir "${params.outdir}"
+    input: path(dummy)
+    output: path("*.txt", includeInputs: true)
+    script:
+    """
+    cat $dummy > duplicate.txt
+    """
 }
