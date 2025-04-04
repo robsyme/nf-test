@@ -1,12 +1,26 @@
 nextflow.enable.dsl=2
 
-process Dummy {
-    debug true
-
-    script:
-    "echo 'Hello world!'"
+workflow {
+    Create()
+    | Consume
+    | view
 }
 
-workflow {
-    Dummy()
+process Create {
+    debug true
+
+    output:
+    path("hello.txt")
+
+    script:
+    "echo 'Hello world!' > hello.txt"
+}
+
+process Consume {
+    input: path(input)
+
+    output: path("*.txt", includeInputs: true)
+
+    script:
+    ":"
 }
