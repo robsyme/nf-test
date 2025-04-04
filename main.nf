@@ -1,26 +1,22 @@
-nextflow.enable.dsl=2
-
 workflow {
     Create()
     | Consume
-    | view { "Contents of ${it}: ${it.text}"}
+    | GetContents
 }
 
 process Create {
-    debug true
-
-    output:
-    path("hello.txt")
-
-    script:
-    "echo 'Hello world!' > hello.txt"
+    output: path("hello.txt")
+    script: "echo 'Hello world!' > hello.txt"
 }
 
 process Consume {
-    input: path(input, stageAs: "one/two/input.txt")
+    input: path("one/two/input.txt")
+    output: path("**/two/*.txt", includeInputs: true)
+    script: ":"
+}
 
-    output: path("**/*.txt", includeInputs: true)
-
-    script:
-    ":"
+process GetContents {
+    debug true
+    input: path(input)
+    script: "echo -n 'File contents: ' && cat $input"
 }
