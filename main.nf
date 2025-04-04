@@ -17,9 +17,9 @@ process Create {
 }
 
 process Consume {
-    input: path(input)
+    input: path(input, stageAs: "one/two/input.txt")
 
-    output: path("*.txt", includeInputs: true)
+    output: path("**/*.txt", includeInputs: true)
 
     script:
     ":"
