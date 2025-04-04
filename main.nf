@@ -5,12 +5,12 @@ workflow {
 }
 
 process Create {
-    output: path("hello.txt")
-    script: "echo 'Hello world!' > hello.txt"
+    output: path("one")
+    script: "mkdir -p one/two && echo 'Hello world!' > one/two/hello.txt"
 }
 
 process Consume {
-    input: path("one/two/input.txt")
+    input: path("one")
     output: path("**/two/*.txt", includeInputs: true)
     script: ":"
 }
