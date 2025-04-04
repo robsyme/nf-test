@@ -3,7 +3,7 @@ nextflow.enable.dsl=2
 workflow {
     Create()
     | Consume
-    | view
+    | view { "Contents of ${it}: ${it.text}"}
 }
 
 process Create {
