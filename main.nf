@@ -1,12 +1,13 @@
 nextflow.enable.dsl=2
 
-process Dummy {
-    debug true
-
-    script:
-    "echo 'Hello world!'"
+process UnTar {
+    input: path(tgz)
+    output: path("*")
+    script: "tar -xzvf ${tgz}"
 }
 
 workflow {
-    Dummy()
+    Channel.fromPath(params.tgz)
+    | UnTar
+    | view
 }
