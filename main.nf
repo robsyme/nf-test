@@ -9,4 +9,5 @@ process Dummy {
 
 workflow {
     Dummy()
+    log.info "Found param foo: ${params.foo}"
 }
