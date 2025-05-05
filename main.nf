@@ -2,11 +2,12 @@ nextflow.enable.dsl=2
 
 process Dummy {
     debug true
+    input: path(input)
 
     script:
-    "echo 'Hello world!'"
+    "cat ${input}"
 }
 
 workflow {
-    Dummy()
+    Dummy(file("${projectDir}/assets/example.txt"))
 }
