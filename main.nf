@@ -8,5 +8,5 @@ process Dummy {
 }
 
 workflow {
-    Dummy()
+    log.info "Found params.outdir = ${params.outdir}"
 }
