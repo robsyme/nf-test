@@ -9,4 +9,5 @@ process Dummy {
 
 workflow {
     log.info "Found params.outdir = ${params.outdir}"
+    log.info "Secondary = ${params.secondary}"
 }
