@@ -1,12 +1,5 @@
 #!/usr/bin/env nextflow
 
-process Dummy {
-    debug true
-
-    script:
-    "echo 'Hello world!'"
-}
-
 workflow {
-    Dummy()
+    log.info "Found parameters: ${params.s3_output_directory}"
 }
