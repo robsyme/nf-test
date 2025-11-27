@@ -10,6 +10,7 @@ process Dummy {
     debug true
     script:
     """
-    echo "Found workflow: '${workflow}'"
+    echo 'Found workflow: ${workflow.repository?.tokenize("/")?.last(2)?.join("/") ?: "local"}'
+    echo 'Found task: ${task.process}'
     """
 }
