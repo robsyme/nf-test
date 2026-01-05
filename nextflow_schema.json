@@ -1,0 +1,50 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "$id": "https://raw.githubusercontent.com/YOUR_PIPELINE/master/nextflow_schema.json",
+    "title": "Parameters for illumina-metrics-nf",
+    "description": "This pipeline generates metrics from Illumina sequencing data, using the following parameters as input.",
+    "type": "object",
+    "properties": {
+        "reads": {
+            "type": "string",
+            "description": "AWS S3 location where input fastqs are located. It should point to one directory higher than the reads so it can search recursively. E.g., s3://my-bucket/illumina/test-data/ILMN008-test-data/",
+            "default": "s3://my-bucket/illumina/test-data/ILMN008-test-data/"
+        },
+        "sampleGroups": {
+            "type": "string",
+            "description": "AWS S3 location where sample groups are located. TSV of two columns with a header, sample (must match illumina sample sheet), and group",
+            "default": "s3://my-bucket/illumina/ILMN035/analysis/v0.0.1/ilmn035_sample_groups.tsv"
+        },
+        "analysisNumber": {
+            "type": "string",
+            "description": "Basecalling run number in the subfolder of the NextSeq output. E.g., 2",
+            "default": "1"
+        },
+        "outDir": {
+            "type": "string",
+            "default": "s3://my-bucket/illumina/test-data/testing-output/4/",
+            "description": "AWS S3 location where output metrics will be saved."
+        },
+        "hybridCapture": {
+            "type": "boolean",
+            "description": "Perform hybrid capture metrics workflow."
+        },
+        "designBed": {
+            "type": "string",
+            "description": "AWS S3 location for target capture BED file"
+        },
+        "concatenateLanes": {
+            "type": "boolean",
+            "description": "Concatenate Lanes from sequencing runs. Use when combining data from a sequencing instrument with multiple lanes."
+        },
+        "numberOfReadsToDownsample": {
+            "type": "number",
+            "description": "Number of reads to downsample per read. This is applied to both R1 and R2 reads. E.g., If you want 5M PE reads downsample to 2.5M since both R1 and R2 are downsampled."
+        }
+    },
+    "required": [
+        "reads",
+        "outDir", 
+        "sampleGroups"
+    ]
+}
