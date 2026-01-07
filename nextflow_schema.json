@@ -1,0 +1,28 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://raw.githubusercontent.com/robsyme/nf-test/main/nextflow_schema.json",
+    "title": "Test pipeline for FD-7128",
+    "description": "Testing boolean parameter conversion issue",
+    "type": "object",
+    "$defs": {
+        "generic_options": {
+            "title": "Generic options",
+            "type": "object",
+            "fa_icon": "fas fa-file-import",
+            "description": "Generic options for the pipeline",
+            "properties": {
+                "bool_flag": {
+                    "type": "boolean",
+                    "description": "A boolean flag for testing",
+                    "default": true,
+                    "hidden": true
+                }
+            }
+        }
+    },
+    "allOf": [
+        {
+            "$ref": "#/$defs/generic_options"
+        }
+    ]
+}

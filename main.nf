@@ -1,5 +1,7 @@
 #!/usr/bin/env nextflow
 
+include { validateParameters } from 'plugin/nf-schema'
+
 process Dummy {
     debug true
 
@@ -8,5 +10,10 @@ process Dummy {
 }
 
 workflow {
+    validateParameters()
+
+    log.info "bool_flag = ${params.bool_flag}"
+    log.info "bool_flag type = ${params.bool_flag.getClass()}"
+
     Dummy()
 }
