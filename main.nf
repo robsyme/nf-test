@@ -2,6 +2,10 @@
 
 include { validateParameters } from 'plugin/nf-schema'
 
+params {
+    bool_flag: Boolean = true
+}
+
 process Dummy {
     debug true
 
