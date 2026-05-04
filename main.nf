@@ -3,10 +3,13 @@
 process Dummy {
     debug true
 
+    input:
+    val message
+
     script:
-    "echo 'Hello world!'"
+    "echo 'message=${message}'"
 }
 
 workflow {
-    Dummy()
+    Dummy(params.input)
 }
