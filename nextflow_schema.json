@@ -1,33 +1,45 @@
 {
-  "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://raw.githubusercontent.com/robsyme/nf-test/main/nextflow_schema.json",
-  "title": "robsyme/nf-test pipeline parameters",
-  "description": "Minimal schema for FD-7495 reproducer",
-  "type": "object",
-  "definitions": {
-    "input_output_options": {
-      "title": "Input/output options",
-      "type": "object",
-      "fa_icon": "fas fa-terminal",
-      "description": "Define where the pipeline should find input data and save output data.",
-      "required": ["input", "outdir"],
-      "properties": {
-        "input": {
-          "type": "string",
-          "format": "file-path",
-          "description": "Path to input file",
-          "default": "s3://schema-default/input.txt"
-        },
-        "outdir": {
-          "type": "string",
-          "format": "directory-path",
-          "description": "Path to output directory",
-          "default": "s3://schema-default/outdir"
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://raw.githubusercontent.com/Rob Syme test template//nextflow_schema.json",
+    "title": "Rob Syme test template pipeline parameters",
+    "description": "",
+    "type": "object",
+    "$defs": {
+        "input_output_options": {
+            "title": "Input/output options",
+            "type": "object",
+            "fa_icon": "fas fa-terminal",
+            "description": "Define where the pipeline should find input data and save output data.",
+            "required": [
+                "input",
+                "outdir"
+            ],
+            "properties": {
+                "input": {
+                    "type": "string",
+                    "format": "file-path",
+                    "exists": true,
+                    "schema": "assets/schema_input.json",
+                    "mimetype": "text/csv",
+                    "pattern": "^\\S+\\.csv$",
+                    "description": "Path to comma-separated file containing information about the samples in the experiment.",
+                    "help_text": "You will need to create a design file with information about the samples in your experiment before running the pipeline. Use this parameter to specify its location. It has to be a comma-separated file with 3 columns, and a header row.",
+                    "fa_icon": "fas fa-file-csv",
+                    "default": "s3://schema-default/input.csv"
+                },
+                "outdir": {
+                    "type": "string",
+                    "format": "directory-path",
+                    "description": "The output directory where the results will be saved. You have to use absolute paths to storage on Cloud infrastructure.",
+                    "fa_icon": "fas fa-folder-open",
+                    "default": "s3://schema-default/outdir"
+                }
+            }
         }
-      }
-    }
-  },
-  "allOf": [
-    { "$ref": "#/definitions/input_output_options" }
-  ]
+    },
+    "allOf": [
+        {
+            "$ref": "#/$defs/input_output_options"
+        }
+    ]
 }
