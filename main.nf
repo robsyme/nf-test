@@ -60,6 +60,21 @@ params.poll_every   = 20    // seconds between S3 polls
 params.watch_write  = 480   // seconds to watch after writing
 params.watch_rename = 240   // seconds to watch after renaming
 
+process CANARY {
+    debug true
+    container 'amazonlinux:2023'
+
+    output:
+    path 'canary.txt'
+
+    script:
+    """
+    echo "canary: shell=\$0 pwd=\$(pwd)" > canary.txt
+    echo "canary: bash=\$(command -v bash) tee=\$(command -v tee)" >> canary.txt
+    cat canary.txt
+    """
+}
+
 process WRITEBACK_PROBE {
     debug true
     cpus 2
@@ -80,8 +95,8 @@ process WRITEBACK_PROBE {
     # non-zero never gets its stdout flushed by Fusion, so on earlier attempts
     # the diagnostics explaining the failure were themselves lost. This script
     # therefore always exits 0 and records its verdict in the file instead.
-    exec > >(tee report.txt) 2>&1
     : > timeline.tsv   # declared output; must exist even if we stop at a guard
+    exec > report.txt 2>&1   # plain redirection; no process substitution
 
     echo "=== environment ==="
     echo "pwd    : \$(pwd)"
@@ -171,5 +186,6 @@ process WRITEBACK_PROBE {
 }
 
 workflow {
+    CANARY()
     WRITEBACK_PROBE()
 }
