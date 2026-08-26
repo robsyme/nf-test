@@ -64,7 +64,7 @@ process WRITEBACK_PROBE {
     debug true
     cpus 2
     memory '4 GB'
-    container 'public.ecr.aws/aws-cli/aws-cli:latest'
+    container 'amazonlinux:2023'
 
     output:
     path 'timeline.tsv'
@@ -73,6 +73,13 @@ process WRITEBACK_PROBE {
     """
     set -euo pipefail
     export AWS_DEFAULT_REGION='${params.region}'
+
+    # amazonlinux:2023 has no ENTRYPOINT, which the official aws-cli images do
+    # (theirs is ["aws"], and it swallows the task script). Install the CLI here
+    # instead. This happens before t0, so it does not affect the measurement.
+    dnf install -y -q awscli-2 >/dev/null 2>&1
+    command -v aws >/dev/null || { echo "INVALID: could not install the AWS CLI"; exit 1; }
+    aws --version
 
     # The task workdir is mounted at /fusion/s3/<bucket>/<key>. Recover the
     # bucket and key so we can query S3 directly, bypassing Fusion entirely.
@@ -150,7 +157,7 @@ process WRITEBACK_PROBE {
     done
 
     echo "=== probe complete; files still on disk: ==="
-    find probe_moved -type f -exec ls -l {} +
+    ls -lR probe_moved
     """
 }
 
