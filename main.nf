@@ -96,7 +96,14 @@ process WRITEBACK_PROBE {
     # the diagnostics explaining the failure were themselves lost. This script
     # therefore always exits 0 and records its verdict in the file instead.
     : > timeline.tsv   # declared output; must exist even if we stop at a guard
-    exec > report.txt 2>&1   # plain redirection; no process substitution
+
+    # Everything goes to report.txt, then a trap copies it to the real stdout on
+    # every exit path. Writing only to the file left the data unreachable: the
+    # Platform API serves .command.* and .fusion.log, not arbitrary work files.
+    exec 3>&1 4>&2
+    finish() { exec 1>&3 2>&4; echo "----- report.txt -----"; cat report.txt; }
+    trap finish EXIT
+    exec > report.txt 2>&1
 
     echo "=== environment ==="
     echo "pwd    : \$(pwd)"
