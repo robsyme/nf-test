@@ -71,54 +71,54 @@ process WRITEBACK_PROBE {
 
     script:
     """
-    set -euo pipefail
-    export AWS_DEFAULT_REGION='${params.region}'
+    # Deliberately no `set -e`. Earlier attempts died silently because a failing
+    # setup command aborted the script before its own diagnostic could print.
+    set -uo pipefail
 
-    # amazonlinux:2023 has no ENTRYPOINT, which the official aws-cli images do
-    # (theirs is ["aws"], and it swallows the task script). Install the CLI here
-    # instead. This happens before t0, so it does not affect the measurement.
-    dnf install -y -q awscli-2 >/dev/null 2>&1
-    command -v aws >/dev/null || { echo "INVALID: could not install the AWS CLI"; exit 1; }
-    aws --version
+    echo "=== environment ==="
+    echo "pwd    : \$(pwd)"
+    echo "python : \$(python3 --version 2>&1)"
+    echo "curl   : \$(command -v curl || echo MISSING)"
+    echo "s3ls   : \$(command -v s3ls.py || echo 'NOT ON PATH')"
+    echo "AWS_* env vars present: \$(env | grep -c '^AWS_')"
 
-    # The task workdir is mounted at /fusion/s3/<bucket>/<key>. Recover the
-    # bucket and key so we can query S3 directly, bypassing Fusion entirely.
     here=\$(pwd)
     rel=\${here#/fusion/s3/}
     bucket=\${rel%%/*}
     prefix=\${rel#*/}
-
     echo "bucket : \$bucket"
     echo "prefix : \$prefix"
+
+    case "\$here" in
+        /fusion/s3/*) ;;
+        *) echo "INVALID: cwd is not under /fusion/s3, so this is not a Fusion mount."
+           exit 1 ;;
+    esac
+
+    s3ls() { s3ls.py "\$bucket" '${params.region}' "\$1"; }
+
     # Precondition. Nextflow uploads .command.sh to this prefix before the task
-    # starts, so it is guaranteed to be in S3 right now. If the CLI cannot see
-    # it, the credentials or permissions are wrong and every "nothing in S3"
-    # reading below would be a false negative. Fail loudly instead.
-    if ! aws s3api list-objects-v2 --bucket "\$bucket" --prefix "\$prefix/.command.sh" \\
-            --query 'Contents[].Key' --output text 2>&1 | grep -q '.command.sh'; then
-        echo "INVALID: the AWS CLI cannot see \$prefix/.command.sh, which is known to exist."
-        echo "Credentials or bucket permissions are wrong - the polls below would all read"
-        echo "as empty regardless of what Fusion did. Aborting rather than reporting a"
-        echo "false negative."
-        aws sts get-caller-identity --output text 2>&1 | head -5 || true
+    # starts, so it is in S3 right now. If we cannot see it, credentials or
+    # permissions are wrong and every reading below would be a false negative.
+    echo "=== precondition ==="
+    if ! s3ls "\$prefix/.command.sh" | grep -q '\.command\.sh'; then
+        echo "INVALID: cannot read \$prefix/.command.sh from S3, though Nextflow put it"
+        echo "         there before this task started. Aborting rather than reporting"
+        echo "         'nothing was uploaded' when the truth is 'we cannot look'."
         exit 1
     fi
-    echo "precondition OK: .command.sh visible in S3, so the CLI can read this prefix"
+    echo "precondition OK: S3 is readable from inside the task"
 
     poll() {  # poll <label> <seconds-since-t0>
-        local keys
-        keys=\$(aws s3api list-objects-v2 \\
-                  --bucket "\$bucket" \\
-                  --prefix "\$prefix/probe" \\
-                  --query 'Contents[].[Key,Size]' \\
-                  --output text 2>/dev/null || true)
-        if [ -z "\$keys" ]; then
+        local out
+        out=\$(s3ls "\$prefix/probe" 2>/dev/null)
+        if [ -z "\$out" ]; then
             printf '%s\\t%s\\t%s\\t%s\\n' "\$1" "\$2" "-" "0" >> timeline.tsv
-            echo "  t=+\$2s  \$1: (nothing in S3)"
+            echo "  t=+\$2s  \$1: (nothing under probe*)"
         else
-            echo "\$keys" | while read -r k s; do
-                printf '%s\\t%s\\t%s\\t%s\\n' "\$1" "\$2" "\${k##*/}" "\$s" >> timeline.tsv
-                echo "  t=+\$2s  \$1: \${k##*/}  \$s bytes"
+            echo "\$out" | while IFS=\$'\\t' read -r k sz; do
+                printf '%s\\t%s\\t%s\\t%s\\n' "\$1" "\$2" "\$k" "\$sz" >> timeline.tsv
+                echo "  t=+\$2s  \$1: \${k#\$prefix/}  \$sz bytes"
             done
         fi
     }
@@ -126,15 +126,14 @@ process WRITEBACK_PROBE {
     : > timeline.tsv
     mkdir -p probe/nested
 
-    # --- write. 1KB and 1MB fit inside a single 128MiB chunk; 130MB and 400MB
-    #     complete one and three chunks respectively.
-    dd if=/dev/urandom of=probe/nested/f_1k.bin   bs=1024        count=1   2>/dev/null
-    dd if=/dev/urandom of=probe/nested/f_1m.bin   bs=1048576     count=1   2>/dev/null
-    dd if=/dev/urandom of=probe/nested/f_130m.bin bs=1048576     count=130 2>/dev/null
-    dd if=/dev/urandom of=probe/nested/f_400m.bin bs=1048576     count=400 2>/dev/null
-    sync || true
+    # 1KB and 1MB sit inside a single 128MiB chunk; 130MB and 400MB complete one
+    # and three chunks respectively.
+    dd if=/dev/urandom of=probe/nested/f_1k.bin   bs=1024    count=1   2>/dev/null
+    dd if=/dev/urandom of=probe/nested/f_1m.bin   bs=1048576 count=1   2>/dev/null
+    dd if=/dev/urandom of=probe/nested/f_130m.bin bs=1048576 count=130 2>/dev/null
+    dd if=/dev/urandom of=probe/nested/f_400m.bin bs=1048576 count=400 2>/dev/null
     t0=\$(date +%s)
-    echo "=== wrote 4 files at t0=\$t0; watching S3 for ${params.watch_write}s ==="
+    echo "=== wrote 4 files at t0; watching S3 for ${params.watch_write}s ==="
 
     elapsed=0
     while [ \$elapsed -lt ${params.watch_write} ]; do
@@ -143,20 +142,21 @@ process WRITEBACK_PROBE {
         elapsed=\$(( \$(date +%s) - t0 ))
     done
 
-    # --- rename. If the rename materialises un-uploaded objects at the
-    #     destination, probe_moved/ keys appear shortly after this point.
+    # If the rename is what materialises un-uploaded objects, probe_moved/ keys
+    # appear shortly after this point. That is the load-bearing question for
+    # COMP-2323.
     mv probe probe_moved
-    tr=\$(date +%s)
-    echo "=== renamed probe -> probe_moved at +\$(( tr - t0 ))s; watching ${params.watch_rename}s ==="
+    tr_at=\$(date +%s)
+    echo "=== renamed probe -> probe_moved at +\$(( tr_at - t0 ))s; watching ${params.watch_rename}s ==="
 
     elapsed=0
     while [ \$elapsed -lt ${params.watch_rename} ]; do
         poll "renamed" "\$(( \$(date +%s) - t0 ))"
         sleep ${params.poll_every}
-        elapsed=\$(( \$(date +%s) - tr ))
+        elapsed=\$(( \$(date +%s) - tr_at ))
     done
 
-    echo "=== probe complete; files still on disk: ==="
+    echo "=== still on the mount at exit ==="
     ls -lR probe_moved
     """
 }
