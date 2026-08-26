@@ -101,7 +101,7 @@ process WRITEBACK_PROBE {
     # starts, so it is in S3 right now. If we cannot see it, credentials or
     # permissions are wrong and every reading below would be a false negative.
     echo "=== precondition ==="
-    if ! s3ls "\$prefix/.command.sh" | grep -q '\.command\.sh'; then
+    if ! s3ls "\$prefix/.command.sh" | grep -qF '.command.sh'; then
         echo "INVALID: cannot read \$prefix/.command.sh from S3, though Nextflow put it"
         echo "         there before this task started. Aborting rather than reporting"
         echo "         'nothing was uploaded' when the truth is 'we cannot look'."
