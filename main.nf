@@ -64,7 +64,7 @@ process WRITEBACK_PROBE {
     debug true
     cpus 2
     memory '4 GB'
-    container 'amazon/aws-cli:2'
+    container 'public.ecr.aws/aws-cli/aws-cli:latest'
 
     output:
     path 'timeline.tsv'
