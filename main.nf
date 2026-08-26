@@ -68,12 +68,20 @@ process WRITEBACK_PROBE {
 
     output:
     path 'timeline.tsv'
+    path 'report.txt'
 
     script:
     """
     # Deliberately no `set -e`. Earlier attempts died silently because a failing
     # setup command aborted the script before its own diagnostic could print.
     set -uo pipefail
+
+    # Mirror everything to report.txt, a declared output. A task that exits
+    # non-zero never gets its stdout flushed by Fusion, so on earlier attempts
+    # the diagnostics explaining the failure were themselves lost. This script
+    # therefore always exits 0 and records its verdict in the file instead.
+    exec > >(tee report.txt) 2>&1
+    : > timeline.tsv   # declared output; must exist even if we stop at a guard
 
     echo "=== environment ==="
     echo "pwd    : \$(pwd)"
@@ -91,8 +99,8 @@ process WRITEBACK_PROBE {
 
     case "\$here" in
         /fusion/s3/*) ;;
-        *) echo "INVALID: cwd is not under /fusion/s3, so this is not a Fusion mount."
-           exit 1 ;;
+        *) echo "VERDICT: INVALID - cwd is not under /fusion/s3, not a Fusion mount"
+           exit 0 ;;
     esac
 
     s3ls() { s3ls.py "\$bucket" '${params.region}' "\$1"; }
@@ -102,10 +110,11 @@ process WRITEBACK_PROBE {
     # permissions are wrong and every reading below would be a false negative.
     echo "=== precondition ==="
     if ! s3ls "\$prefix/.command.sh" | grep -qF '.command.sh'; then
-        echo "INVALID: cannot read \$prefix/.command.sh from S3, though Nextflow put it"
-        echo "         there before this task started. Aborting rather than reporting"
-        echo "         'nothing was uploaded' when the truth is 'we cannot look'."
-        exit 1
+        echo "VERDICT: INVALID - cannot read \$prefix/.command.sh from S3, though"
+        echo "         Nextflow put it there before this task started. Stopping rather"
+        echo "         than reporting 'nothing was uploaded' when the truth is"
+        echo "         'we cannot look'."
+        exit 0
     fi
     echo "precondition OK: S3 is readable from inside the task"
 
@@ -123,7 +132,6 @@ process WRITEBACK_PROBE {
         fi
     }
 
-    : > timeline.tsv
     mkdir -p probe/nested
 
     # 1KB and 1MB sit inside a single 128MiB chunk; 130MB and 400MB complete one
@@ -158,6 +166,7 @@ process WRITEBACK_PROBE {
 
     echo "=== still on the mount at exit ==="
     ls -lR probe_moved
+    echo "VERDICT: COMPLETE"
     """
 }
 
