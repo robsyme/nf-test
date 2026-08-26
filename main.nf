@@ -62,7 +62,7 @@ params.watch_rename = 240   // seconds to watch after renaming
 
 process CANARY {
     debug true
-    container 'amazonlinux:2023'
+    container 'python:3.12'
 
     output:
     path 'canary.txt'
@@ -79,7 +79,7 @@ process WRITEBACK_PROBE {
     debug true
     cpus 2
     memory '4 GB'
-    container 'amazonlinux:2023'
+    container 'python:3.12'
 
     output:
     path 'timeline.tsv'
